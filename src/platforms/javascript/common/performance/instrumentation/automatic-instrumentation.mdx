@@ -52,7 +52,7 @@ Supported options:
 
 ### tracingOrigins
 
-A list of strings and regular expressions. The JavaScript SDK will attach the `sentry-trace` and `baggage` headers to all outgoing XHR/fetch requests whose destination contains a string in the list or matches a regex in the list. If your frontend is making requests to a different domain, you'll need to add it there to propagate the `sentry-trace` and `baggage` headers to the backend services, which is required to link transactions together as part of a single trace. 
+A list of strings and regular expressions. The JavaScript SDK will attach the `sentry-trace` and `baggage` headers to all outgoing XHR/fetch requests whose destination contains a string in the list or matches a regex in the list. If your frontend is making requests to a different domain, you'll need to add it there to propagate the `sentry-trace` and `baggage` headers to the backend services, which is required to link transactions together as part of a single trace.
 
 **The `tracingOrigins` option matches against the whole request URL, not just the domain. Using stricter regex to match certain parts of the URL ensures that requests do not unnecessarily have the additional headers attached.**
 
@@ -79,6 +79,12 @@ This function can be used to filter out unwanted spans such as XHR's running hea
 The idle time, measured in ms, to wait until the transaction will be finished. The transaction will use the end timestamp of the last finished span as the endtime for the transaction.
 
 The default is `1000`.
+
+### heartbeatInterval
+
+The time, measured in ms, one heartbeat takes. If no new spans were started or no open spans finished within **three heartbeats**, the transaction will be finished. The heartbeat count restarts whenever a new span is created or an open span is finished.
+
+The default is `5000`.
 
 ### startTransactionOnLocationChange
 
